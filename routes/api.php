@@ -5,22 +5,25 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TeachersController;
 
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
 
-    Route::controller(AuthController::class)->group(function () {
-        Route::post('login', 'login');
-        Route::post('register', 'register');
-        Route::post('logout', 'logout');
-
-
-
-        Route::post('refresh', 'refresh');
+Route::middleware('auth:sanctum')->group(function() {
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('user', function(Request $request) {
+        return $request->user();
     });
+});
 
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::controller(TeachersController::class)->group(function () {
-        Route::get('teachers', 'index');
-        Route::post('teacher', 'store');
-        Route::get('teacher/{id}', 'show');
-        Route::put('teacher/{id}', 'update');
-        Route::delete('teacher/{id}', 'destroy');
-        Route::get('search','search');
+        Route::get('teachers', 'index')->middleware('can:show teacher');
+        Route::post('teachers', 'store')->middleware('can:add teacher');
+        Route::get('teachers/{id}', 'show')->middleware('can:show teacher');
+        Route::put('teachers/{id}', 'update')->middleware('can:edit teacher');
+        Route::delete('teachers/{id}', 'destroy')->middleware('can:delete teacher');
+        Route::get('search','search')->middleware('can:show teacher');
     });
+});

@@ -17,10 +17,10 @@ class UserObserver
     public function created(User $user)
     {
         /*ОСТОРОЖНО КОСТЫЛЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Создание админки через сидер*/
-        if(!User::where('email', '=', 'admin@gmail.com')){
+
             $role = Role::findByName('user', 'web');
             $user->assignRole($role);
-        }
+
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,15 @@ class TeachersControllerWeb extends Controller
 
         return view('teachers', compact([
             'posts'
+        ]));
+    }
+    public function show($id)
+    {
+//        $posts = Teacher::orderBy('created_at', 'desc')->get();
+        $posts = Teacher::findOrFail($id);
+        
+        return view('detail', compact([
+            'posts',
         ]));
     }
 
@@ -40,7 +50,7 @@ class TeachersControllerWeb extends Controller
     {
         $post = Teacher::findOrFail($id);
 
-        return view('edit-new-teacher', compact([
+        return view('edit-new-teachers', compact([
             'post'
         ]));
     }
@@ -64,7 +74,7 @@ class TeachersControllerWeb extends Controller
     {
         Teacher::findOrFail($id)->delete();
 
-        return redirect()->route('teachers')->with('status', 'Teacher deleted!');
+        return redirect()->route('dashboard')->with('status', 'Teacher deleted!');
     }
 
     public function search(Request $request)

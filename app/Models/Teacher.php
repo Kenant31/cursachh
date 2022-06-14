@@ -26,4 +26,7 @@ class Teacher extends Model
     {
         return (new PostFilter($request))->filter($builder);
     }
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
 }

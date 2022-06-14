@@ -30,12 +30,11 @@
                         <br><br>
                     @foreach($posts as $post)
                         <div class="card mb-4">
-                            <h5 class="card-header">{{$post->name}}</h5>
+                            <h5 class="card-header"><a href="{{route('detail',$post->id)}}">{{$post->name}}</a></h5>
                             <div class="card-body">
                                 <p>{{$post->genre}}</p>
                                 <p>{{$post->text}}</p>
                                 <p>{{$post->price}} р.</p>
-                                <p>{{$post->created_at}}</p>
                                 @if(auth()->user()->can('edit teacher'))
                                     <a href="{{route('edit-teacher', $post->id)}}" class="btn btn-primary">Edit</a>
                                 @endif

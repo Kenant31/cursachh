@@ -9,13 +9,13 @@ class TeachersController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
-        auth()->setDefaultDriver('api');
+
     }
     public function index(Request $request)
     {
+
 //        $posts = Teacher::orderBy('created_at', 'desc')->get();
-          $posts = Teacher::filter($request)->get();
+        $posts = Teacher::filter($request)->get();
         return response()->json([
             'teachers' => $posts,
         ]);
@@ -28,30 +28,33 @@ class TeachersController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'text' => 'required|string',
-            'genre' => 'required|string|max:150',
-            'price' => 'required|int',
-        ]);
 
-        $posts = Teacher::create([
-            'name' => $request -> name,
-            'text' => $request -> text,
-            'genre' => $request -> genre,
-            'price' => $request -> price,
-        ]);
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'text' => 'required|string',
+                'genre' => 'required|string|max:150',
+                'price' => 'required|int',
+            ]);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Teacher page created successfully',
-            'teachers' => $posts,
-        ]);
+            $posts = Teacher::create([
+                'name' => $request -> name,
+                'text' => $request -> text,
+                'genre' => $request -> genre,
+                'price' => $request -> price,
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Teacher page created successfully',
+                'teachers' => $posts,
+            ]);
+
     }
 
     public function show($id)
     {
         $posts = Teacher::findOrFail($id);
+
         return response()->json([
             'status' => 'success',
             'posts' => $posts,
@@ -60,37 +63,38 @@ class TeachersController extends Controller
 
     public function update($id, Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'text' => 'required|string',
-            'genre' => 'required|string|max:150',
-            'price' => 'required|int',
-        ]);
 
-        $posts = Teacher::findOrFail($id);
-        $posts->name = $request -> name;
-        $posts->text = $request -> text;
-        $posts->genre = $request -> genre;
-        $posts->price = $request -> price;
-        $posts->save();
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'text' => 'required|string',
+                'genre' => 'required|string|max:150',
+                'price' => 'required|int',
+            ]);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Teacher page updated successfully',
-            'teachers' => $posts,
-        ]);
+            $posts = Teacher::findOrFail($id);
+            $posts->name = $request->name;
+            $posts->text = $request->text;
+            $posts->genre = $request->genre;
+            $posts->price = $request->price;
+            $posts->save();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Teacher page updated successfully',
+                'teachers' => $posts,
+            ]);
     }
 
     public function destroy($id)
     {
-        $posts = Teacher::findOrFail($id);
-        $posts->delete();
+            $posts = Teacher::findOrFail($id);
+            $posts->delete();
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Teacher page deleted successfully',
-            'posts' => $posts,
-        ]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Teacher page deleted successfully',
+                'posts' => $posts,
+            ]);
     }
 
     public function search(Request $request)
@@ -108,7 +112,5 @@ class TeachersController extends Controller
                 'teachers' => $teachers,
             ]);
         }
-
-
     }
 }

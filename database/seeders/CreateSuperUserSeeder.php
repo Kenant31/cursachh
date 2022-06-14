@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class CreateSuperUserSeeder extends Seeder
@@ -25,6 +26,10 @@ class CreateSuperUserSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+        Permission::create(['name'=>'show teacher']);
+        Permission::create(['name'=>'add teacher']);
+        Permission::create(['name'=>'edit teacher']);
+        Permission::create(['name'=>'delete teacher']);
 
         Role::create([
             'name' => 'super-user',
@@ -32,6 +37,8 @@ class CreateSuperUserSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
-        $superUser->assignRole('super-user');
+
     }
 }
+///php artisan db:seed --class=CreateSuperUser.php
+///

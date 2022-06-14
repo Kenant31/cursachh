@@ -7,103 +7,109 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
-use PHPOpenSourceSaver\JWTAuth\JWTAuth;
+use Illuminate\Support\Facades\Validator;
+
 
 class AuthController extends Controller
 {
+    public function register(Request $request){
 
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
-        auth()->setDefaultDriver('api');
+        try {
 
-    }
+            $validated = Validator::make($request->all(),
+                [
+                    'name' => 'required',
+                    'email' => 'required|email|unique:users,email',
+                    'password' => 'required'
 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
-        $credentials = $request->only('email', 'password');
+                ]);
 
-        $token = Auth::attempt($credentials);
-        if (!$token) {
+            if($validated->fails()){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'validate error',
+                    'error' => $validated->errors()
+                ], 401);
+            }
+
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+
             return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized',
-            ], 401);
+                'status' => true,
+                'message' => 'User Created',
+                'token' => $user->createToken("API TOKEN")->plainTextToken
+            ], 200);
+
+
+        } catch(\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ]);
         }
 
-        $user = Auth::user();
-        return response()->json([
-            'status' => 'Logged in',
-            'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-                'expires_in' => auth()->factory()->getTTL() * 60,
-            ]
-        ]);
 
     }
 
-    public function register(Request $request){
-        if (User::where('email',"=", $request->email )->exists()) {
+    public function login(Request $request){
+
+        try {
+            $validateUser = Validator::make($request->all(),
+                [
+                    'email' => 'required|email',
+                    'password' => 'required'
+                ]);
+
+            if($validateUser->fails()){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'validation error',
+                    'errors' => $validateUser->errors()
+                ], 401);
+            }
+
+            if(!Auth::attempt($request->only(['email', 'password']))){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Unknown user.',
+                ], 401);
+            }
+
+            $user = User::where('email', $request->email)->first();
+
             return response()->json([
-                'status' => 'error',
-                'message' => 'Already registered',
-            ]);}
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
-        ]);
+                'status' => true,
+                'message' => 'User Logged In Successfully',
+                'token' => $user->createToken("API TOKEN")->plainTextToken
+            ], 200);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-        $token = Auth::login($user);
+        } catch (\Throwable $th) {
 
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'User created successfully',
-            'user' => [
-                'name' => $user->name,
-                'email' => $user->email,
-                ],
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-                'expires_in' => auth()->factory()->getTTL() * 60,
-            ]
-        ]);
+        }
+
     }
 
-    public function logout()
-    {
+    public function logout() {
 
-            Auth::logout();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Successfully logged out',
+        if(!Auth::user()){
+            return response()->json( [
+                'message' => 'No user'
             ]);
-    }
-
-    public function refresh()
-    {
-        return response()->json([
-            'status' => 'success',
-            'user' => Auth::user(),
-            'authorisation' => [
-                'token' => Auth::refresh(),
-                'type' => 'bearer',
-
-            ]
+        }
+        Auth::user()->tokens()->delete();
+        return response()->json( [
+            'message' => 'logout ready'
         ]);
+
     }
 
 

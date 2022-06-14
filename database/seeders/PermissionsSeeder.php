@@ -15,9 +15,12 @@ class PermissionsSeeder extends Seeder
      */
     public function run()
     {
-        Permission::create(['name'=>'show teacher']);
-        Permission::create(['name'=>'add teacher']);
-        Permission::create(['name'=>'edit teacher']);
-        Permission::create(['name'=>'delete teacher']);
+        Permission::create(['name'=>'create-comment']);
+        Permission::create(['name'=>'delete-comment']);
+        Permission::create(['name'=>'edit-comment']);
+        Permission::create(['name'=>'reply-to-comment']);
     }
 }
+
+//php artisan db:seed --class=CreateSuperUserSeeder
+//php artisan db:seed --class=PermissionsSeeder
