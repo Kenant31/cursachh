@@ -71,7 +71,7 @@
 
                                                 <td class="px-6 py-4 text-right">
                                                     <div class="flex space-x-2">
-
+                                                        @if ((Auth::check() && Auth::id() == $comment->user_id) || auth()->user()->hasRole('super-user'))
                                                             <a href="{{ route('comment.edit', ['id' => $posts->id, 'comm' => $comment->id])}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" style="padding-right: 10px">Edit</a>
 
 
@@ -82,7 +82,7 @@
                                                                     Delete
                                                                 </button>
                                                             </form>
-
+                                                        @endif
                                                     </div>
                                                 </td>
                                             </tr>

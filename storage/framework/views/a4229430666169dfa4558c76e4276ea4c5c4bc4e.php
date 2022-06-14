@@ -45,16 +45,16 @@
                                 <p><?php echo e($post->genre); ?></p>
                                 <p><?php echo e($post->text); ?></p>
                                 <p><?php echo e($post->price); ?> р.</p>
-                                <?php if(auth()->user()->can('edit teacher')): ?>
-                                    <a href="<?php echo e(route('edit-teacher', $post->id)); ?>" class="btn btn-primary">Edit</a>
-                                <?php endif; ?>
-                                <?php if(auth()->user()->can('delete teacher')): ?>
-                                    <form action="<?php echo e(route('delete-teacher', $post->id)); ?>" method="post" style="display: inline-block">
-                                        <?php echo csrf_field(); ?>
-                                        <?php echo method_field('DELETE'); ?>
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                <?php endif; ?>
+                                    <?php if(auth()->user()->can('edit teacher')): ?>
+                                        <a href="<?php echo e(route('edit-teacher', $post->id)); ?>" class="btn btn-primary">Edit</a>
+                                    <?php endif; ?>
+                                    <?php if(auth()->user()->can('delete teacher')): ?>
+                                        <form action="<?php echo e(route('delete-teacher', $post->id)); ?>" method="post" style="display: inline-block">
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('DELETE'); ?>
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    <?php endif; ?>
                             </div>
                         </div>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

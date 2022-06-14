@@ -21,6 +21,7 @@
                         </ul>
                     </div>
                 @endif
+                @if (Auth::check() && Auth::id() == $comment->user_id)
                 <form method="post" action="{{route('comment.update', ['id' => $posts->id, 'comm' => $comment->id])}}">
                     @csrf
                     @method('PUT')
@@ -30,6 +31,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+                    @endif
             </div>
         </div>
     </div>

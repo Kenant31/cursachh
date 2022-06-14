@@ -35,16 +35,16 @@
                                 <p>{{$post->genre}}</p>
                                 <p>{{$post->text}}</p>
                                 <p>{{$post->price}} р.</p>
-                                @if(auth()->user()->can('edit teacher'))
-                                    <a href="{{route('edit-teacher', $post->id)}}" class="btn btn-primary">Edit</a>
-                                @endif
-                                @if(auth()->user()->can('delete teacher'))
-                                    <form action="{{route('delete-teacher', $post->id)}}" method="post" style="display: inline-block">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                @endif
+                                    @if(auth()->user()->can('edit teacher'))
+                                        <a href="{{route('edit-teacher', $post->id)}}" class="btn btn-primary">Edit</a>
+                                    @endif
+                                    @if(auth()->user()->can('delete teacher'))
+                                        <form action="{{route('delete-teacher', $post->id)}}" method="post" style="display: inline-block">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    @endif
                             </div>
                         </div>
                     @endforeach

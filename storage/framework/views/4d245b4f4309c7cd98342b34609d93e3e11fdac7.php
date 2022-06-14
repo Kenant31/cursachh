@@ -90,7 +90,7 @@ unset($__errorArgs, $__bag); ?>
 
                                                 <td class="px-6 py-4 text-right">
                                                     <div class="flex space-x-2">
-
+                                                        <?php if((Auth::check() && Auth::id() == $comment->user_id) || auth()->user()->hasRole('super-user')): ?>
                                                             <a href="<?php echo e(route('comment.edit', ['id' => $posts->id, 'comm' => $comment->id])); ?>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" style="padding-right: 10px">Edit</a>
 
 
@@ -101,7 +101,7 @@ unset($__errorArgs, $__bag); ?>
                                                                     Delete
                                                                 </button>
                                                             </form>
-
+                                                        <?php endif; ?>
                                                     </div>
                                                 </td>
                                             </tr>
