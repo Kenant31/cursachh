@@ -9,26 +9,18 @@ class TeachersController extends Controller
 {
     public function __construct()
     {
-
     }
+
     public function index(Request $request)
     {
-
-//        $posts = Teacher::orderBy('created_at', 'desc')->get();
         $posts = Teacher::filter($request)->get();
         return response()->json([
             'teachers' => $posts,
         ]);
     }
 
-//    public function create()
-//    {
-//        return view('add-new-post');
-//    }
-
     public function store(Request $request)
     {
-
             $request->validate([
                 'name' => 'required|string|max:255',
                 'text' => 'required|string',
@@ -63,7 +55,6 @@ class TeachersController extends Controller
 
     public function update($id, Request $request)
     {
-
             $request->validate([
                 'name' => 'required|string|max:255',
                 'text' => 'required|string',

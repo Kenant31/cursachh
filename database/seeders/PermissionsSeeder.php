@@ -18,7 +18,6 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name'=>'create-comment']);
         Permission::create(['name'=>'delete-comment']);
         Permission::create(['name'=>'edit-comment']);
-        Permission::create(['name'=>'reply-to-comment']);
     }
 }
 

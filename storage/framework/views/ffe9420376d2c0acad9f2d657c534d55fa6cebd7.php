@@ -123,4 +123,4 @@ unset($__errorArgs, $__bag); ?>
 <?php $component = $__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da; ?>
 <?php unset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da); ?>
 <?php endif; ?>
-<?php /**PATH C:\OpenServer\domains\localhost\cursachh\resources\views/detail.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Temp\OSPanel\domains\localhost\music-school-proj\resources\views/detail.blade.php ENDPATH**/ ?>

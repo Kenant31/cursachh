@@ -16,8 +16,6 @@ class UserObserver
 
     public function created(User $user)
     {
-        /*ОСТОРОЖНО КОСТЫЛЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Создание админки через сидер*/
-
             $role = Role::findByName('user', 'web');
             $user->assignRole($role);
 

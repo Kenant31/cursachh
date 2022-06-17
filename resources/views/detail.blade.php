@@ -36,14 +36,14 @@
                                 <form style="margin-top: 50px;" class="space-y-5" method="POST" action="{{ route('comment.store', $posts->id) }}">
                                     @csrf
                                     <h5>Comment</h5>
-                                    <div style="display: flex; align-items: center;">
+                                    <div style="display: flex;align-items: baseline;">
 
                                         <input id="comment_body" type="text" name="comment_body" class="block w-1000px py-3 px-3 mt-2 text-gray-800 appearance-none border-3 border-gray-100 ">
                                         <input type="hidden" name="post_id" value="{{ $posts->id }}" />
                                         @error('comment_body')
                                         <span class="text-sm text-red-400">{{ $message }}</span>
                                         @enderror
-                                        <button type="submit"  style="height: 50px; margin-left: 20px" class="btn btn-success mb-4">
+                                        <button type="submit"  style="height: 58px; margin-left: 20px" class="btn btn-success mb-4">
                                             Create
                                         </button>
                                     </div>
@@ -71,7 +71,7 @@
 
                                                 <td class="px-6 py-4 text-right">
                                                     <div class="flex space-x-2">
-                                                        @if ((Auth::check() && Auth::id() == $comment->user_id) || auth()->user()->hasRole('super-user'))
+                                                        @if ((Auth::check() && Auth::id() == $comment->user_id) || auth()->user()->hasRole('super-user') || auth()->user()->hasRole('moderator'))
                                                             <a href="{{ route('comment.edit', ['id' => $posts->id, 'comm' => $comment->id])}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" style="padding-right: 10px">Edit</a>
 
 

@@ -19,6 +19,11 @@ class CreateSuperUserSeeder extends Seeder
      */
     public function run()
     {
+        Role::create([
+            'name' => 'user',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
         $superUser = User::create([
             'email' => 'admin@gmail.com',
             'name' => 'Admin',
@@ -30,13 +35,14 @@ class CreateSuperUserSeeder extends Seeder
         Permission::create(['name'=>'add teacher']);
         Permission::create(['name'=>'edit teacher']);
         Permission::create(['name'=>'delete teacher']);
-
+        Permission::create(['name'=>'create-comment']);
+        Permission::create(['name'=>'delete-comment']);
+        Permission::create(['name'=>'edit-comment']);
         Role::create([
             'name' => 'super-user',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-
 
     }
 }
